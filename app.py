@@ -27,14 +27,14 @@ def guestbook_post():
         "num": num_receive,
     }
 
-    db.products.insert_one(doc)
+    db.shop.insert_one(doc)
 
     return jsonify({"msg": "저장 완료!"})
 
 
-@app.route("/mainpage", methods=["GET"])
+@app.route("/itemshow", methods=["GET"])
 def guestbook_get():
-    all_product = list(db.products.find({}, {"_id": False}))
+    all_product = list(db.shop.find({}, {"_id": False}))
     return jsonify({"result": all_product})
 
 
