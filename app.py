@@ -31,5 +31,19 @@ def guestbook_get():
 def view():
     return render_template('view.html')
 
+# 쇼핑몰 상세 페이지 상품 leolego03
+@app.route('/view/get-item', methods=["GET"])
+def view_get_item():
+    temp_item = {
+        'itemId' : 2,
+        'itemName' : '운동화',
+        'itemPrice' : 10000,
+        'itemStock' : 99,
+        'itemSubTitle': '멋있는 운동화!',
+        'itemDescription': '운동화 상세 설명입니다.'
+    }
+
+    return jsonify({'temp_item' : temp_item})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

@@ -54,8 +54,44 @@
       .view-info { width: 320px; height: 320px; margin-left: 20px; }
       .view-info > form > input { width: 60px; }
       .view-desc { padding: 20px 20px 0 20px; }
-
     </style>
+    <script>
+      $(document).ready(function () {
+        show_item();
+      });
+      function show_item() {
+        fetch('/view/get-item').then(res => res.json()).then(data => {
+          $('.view-info').empty()
+          $('.view-desc').empty()
+
+          let tempItem = data['temp_item']
+          let itemId= tempItem['itemId']
+          let itemName = tempItem['itemName']
+          let itemPrice = tempItem['itemPrice']
+          let itemStock = tempItem['itemStock']
+          let itemSubTitle = tempItem['itemSubTitle']
+          let itemDescription = tempItem['itemDescription']
+
+          let tempHtml = `<p>${itemName}</p>
+                          <p>${itemPrice} 원</p>
+                          <p>재고: ${itemStock}</p>
+                          <form action="/" method="post">
+                            <input type="text" id="number">
+                            <button onclick="location.href=''">장바구니 추가</button>
+                          </form>`
+          
+          let tempHtmlDesc = `<p>${itemSubTitle}</p>
+                              <div>
+                                ${itemDescription}
+                              </div>`
+
+          if(itemId === 2) {
+            $('.view-info').append(tempHtml)
+            $('.view-desc').append(tempHtmlDesc)
+          }
+        })
+      }
+    </script>
   </head>
   <body>
     <div id="hd">
@@ -78,7 +114,7 @@
         </div>
 
         <div class="view-info">
-          <p>슈퍼스타</p>
+          <p>운동화</p>
           <p>10,0000 원</p>
           <p>재고: 99</p>
           <form action="/" method="post">
@@ -90,9 +126,9 @@
 
       <div class="view-con">
         <div class="view-desc">
-          <p>운동화</p>
+          <p>멋있는 운동화!</p>
           <div>
-            운동화 상세 설명
+            운동화 상세 설명입니다.
           </div>
         </div>
       </div>
