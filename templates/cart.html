@@ -239,9 +239,63 @@
         showCart();
       });
 
+      // function showCart() {
+      //   const main = document.querySelector(".main");
+      //   main.innerHTML = "";
+
+      // }
+
       function showCart() {
+        const userid = "kim1234"; //temporary data
         const main = document.querySelector(".main");
         main.innerHTML = "";
+
+        let formData = new FormData();
+        formData.append("userid_give", userid);
+        fetch(`/cartinfo`)
+          .then((res) => res.json())
+          .then((data) => {
+            const cartItems = data["result"]["cart"];
+            console.log(data["result"]);
+
+            cartItems.forEach((cartItem) => {
+              const itemid = cartItem["itemid"];
+              let formData = new FormData();
+              formData.append("itemid_give", itemid);
+              fetch("/itemdetails")
+                .then((res) => res.json())
+                .then((itemData) => {
+                  const item = itemData["result"];
+                  const temp = document.createElement("section");
+
+                  temp.setAttribute("class", "item");
+                  temp.innerHTML = `
+              <section class="item">
+                <img src="${item["imageurl"]}" alt="" class="item__image" />
+                <div class="item--middle">
+                  <p class="item__name">${item["name"]}</p>
+                  <div class="item__quantity">
+                    <p class="item__quantity--show">${cartItem["quantity"]}</p>
+                    <select class="item__quantity--change form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                      <option selected>Change quantity</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="item--right">
+                  <button class="item__delete">X</button>
+                  <p class="item__price">$${item["price"]}</p>
+                </div>
+              </section>`;
+                  main.append(temp);
+                });
+            });
+          });
       }
     </script>
   </body>

@@ -7,12 +7,13 @@ app = Flask(__name__)
 
 
 client = MongoClient(
-    'mongodb://아이디:비번@ac-uixemuf-shard-00-00.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-01.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-02.hhp4n7w.mongodb.net:27017/?ssl=true&replicaSet=atlas-1q63nz-shard-0&authSource=admin&retryWrites=true&w=majority')
+    'mongodb://sparta:1234@ac-uixemuf-shard-00-00.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-01.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-02.hhp4n7w.mongodb.net:27017/?ssl=true&replicaSet=atlas-1q63nz-shard-0&authSource=admin&retryWrites=true&w=majority')
 db = client.shoppingmall8
 
 
 @app.route('/')
 def home():
+    return render_template('cart.html')
 
 
 @app.route("/itemsave", methods=["POST"])
@@ -53,7 +54,7 @@ def item_get():
 
 @app.route("/itemdetails", methods=["GET"])   # 아이템 하나 상세정보 모두 불러오기
 def item_details():
-    itemid_receive = request.args.get('itemid_give', False)
+    itemid_receive = request.form.get('itemid_give', False)
 
     # 아이템 정보 찾기
     item_details = db.items.find_one({'itemid': itemid_receive}, {'_id': False})
@@ -67,7 +68,7 @@ def item_details():
 
 @app.route("/itembycategory", methods=["GET"]) #아이템 카테고리별로 불러오기
 def items_by_category():
-    category_receive = request.args.get('category_give', False)
+    category_receive = request.form.get('category_give', False)
 
     # 해당 카테고리의 아이템 불러오기
     items_in_category = list(db.items.find({'category': category_receive}, {'_id': False}))
@@ -138,7 +139,7 @@ def cart_add():
 
 @app.route("/cartinfo", methods=["GET"])  #카트 정보 불러오기
 def cart_info():
-    userid_receive = request.args.get('userid_give', False)
+    userid_receive = request.form.get('userid_give', False)
 
     # 사용자의 카트 찾기
     user_cart = db.carts.find_one({'userid': userid_receive}, {'_id': False})
