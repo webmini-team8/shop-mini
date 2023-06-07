@@ -13,25 +13,6 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/mainpage", methods=["POST"])
-def guestbook_post():
-    name_receive = request.form["name_give"]
-    image_receive = request.form["image_give"]
-    price_receive = request.form["price_give"]
-    num_receive = request.form["num_give"]
-
-    doc = {
-        "name": name_receive,
-        "image": image_receive,
-        "price": price_receive,
-        "num": num_receive,
-    }
-
-    db.shop.insert_one(doc)
-
-    return jsonify({"msg": "저장 완료!"})
-
-
 @app.route("/itemshow", methods=["GET"])
 def guestbook_get():
     all_product = list(db.shop.find({}, {"_id": False}))
