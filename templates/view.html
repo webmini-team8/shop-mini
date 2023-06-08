@@ -22,7 +22,10 @@
 
     <meta property="og:title" content="쇼핑몰 상세페이지" />
     <meta property="og:description" content="제품 상세 설명!!" />
-    <meta property="og:image" content="https://cdn.pixabay.com/photo/2016/11/29/06/17/audience-1867754_1280.jpg" />
+    <meta
+      property="og:image"
+      content="https://cdn.pixabay.com/photo/2016/11/29/06/17/audience-1867754_1280.jpg"
+    />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
@@ -33,40 +36,153 @@
         font-family: "Noto Serif KR", serif;
       }
 
-      #hd { width: 100%; }
-      .hd-con { width: 720px; height: 60px; display: flex; justify-content: space-between; align-items: center; margin: 0 auto; background-color: #f7f7f7; }
-      .hd-tit { padding: 0 20px; }
-      .hd-nav { padding: 0 20px; }
-      .hd-nav a { display: inline-block; }
-      .hd-nav a:nth-child(n+2) { margin-left: 5px; }
-      .hd-nav > form > button  { font-size: 16px; padding: 0 5px; height: 40px; }
+      #hd {
+        width: 100%;
+      }
+      .hd-con {
+        width: 720px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        background-color: #f7f7f7;
+      }
+      .hd-tit {
+        padding: 0 20px;
+      }
+      .hd-nav {
+        padding: 0 20px;
+      }
+      .hd-nav a {
+        display: inline-block;
+      }
+      .hd-nav a:nth-child(n + 2) {
+        margin-left: 5px;
+      }
+      .hd-nav > form > button {
+        font-size: 16px;
+        padding: 0 5px;
+        height: 40px;
+      }
 
-      #ft { width: 100%; }
-      .ft-con { width: 720px; height: 180px; margin: 0 auto; }
-      .ft-item { padding: 20px 20px 0 20px; }
+      #ft {
+        width: 100%;
+      }
+      .ft-con {
+        width: 720px;
+        height: 180px;
+        margin: 0 auto;
+      }
+      .ft-item {
+        padding: 20px 20px 0 20px;
+      }
 
-      #view { width: 100%; }
-      .view-con { width: 720px; height: 720px; margin: 0 auto; }
-      .view-con:nth-child(1) { display: flex; justify-content: center; align-items: center; }
-      .view-con:nth-child(2) { background-color: #f7f7f7; }
-      .view-pic { position: relative; overflow: hidden; width: 320px; height: 320px; }
-      .view-pic img { position: absolute; width: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-      .view-info { width: 320px; height: 320px; margin-left: 20px; }
-      .view-info > form > input { width: 60px; }
-      .view-desc { padding: 20px 20px 0 20px; }
-
+      #view {
+        width: 100%;
+      }
+      .view-con {
+        width: 720px;
+        height: 720px;
+        margin: 0 auto;
+      }
+      .view-con:nth-child(1) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .view-con:nth-child(2) {
+        background-color: #f7f7f7;
+      }
+      .view-pic {
+        position: relative;
+        overflow: hidden;
+        width: 320px;
+        height: 320px;
+      }
+      .view-pic img {
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .view-info {
+        width: 320px;
+        height: 320px;
+        margin-left: 20px;
+      }
+      .view-info p:nth-child(1) {
+        font-weight: 600;
+      }
+      .view-info input {
+        width: 60px;
+        margin-right: 10px;
+      }
+      .view-desc {
+        padding: 20px 20px 0 20px;
+      }
+      .view-desc p:nth-child(1) {
+        font-weight: 600;
+      }
     </style>
+    <script>
+      function save_item() {
+        let itemCount = $("#item-count").val();
+        let itemStock = $("#item-stock").val();
+
+        let formData = new FormData();
+        formData.append("item_count", itemCount);
+
+        fetch("/view/item", { method: "POST", body: formData })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data["msg"]);
+            window.location.reload();
+          });
+      }
+
+      $(window).on("load", function () {
+        $(".view-pic").empty();
+        $(".view-info").empty();
+        $(".view-desc").empty();
+
+        let itemImgUrl = "{{ temp_item.itemImgUrl }}";
+        let itemName = "{{ temp_item.itemName }}";
+        let itemPrice = "{{ temp_item.itemPrice }}";
+        let itemStock = "{{ temp_item.itemStock }}";
+        let itemSubTitle = "{{ temp_item.itemSubTitle }}";
+        let itemDescription = "{{ temp_item.itemDescription }}";
+
+        let tempHtml = `<img src="${itemImgUrl}">`;
+
+        let tempHtmlInfo = `<p>${itemName}</p>
+                        <p>${itemPrice} 원</p>
+                        <p>재고: ${itemStock}</p>
+                        <input type="text" id="item-count">
+                        <button onclick="save_item()" class="btn btn-outline-primary" type="button">장바구니 추가</button>`;
+
+        let tempHtmlDesc = `<p>${itemSubTitle}</p>
+                            <div>
+                              ${itemDescription}
+                            </div>`;
+
+        $(".view-pic").append(tempHtml);
+        $(".view-info").append(tempHtmlInfo);
+        $(".view-desc").append(tempHtmlDesc);
+      });
+    </script>
   </head>
   <body>
     <div id="hd">
       <div class="hd-con">
         <div class="hd-tit">
-          <a href="/">쇼핑몰8</a>
+          <a href="/" class="link-primary">쇼핑몰8</a>
         </div>
-  
+
         <div class="hd-nav">
-          <a href="#">장바구니</a>
-          <a href="#">로그인</a>
+          <a href="/" class="link-secondary">장바구니</a>
+          <a href="/" class="link-success">로그인</a>
         </div>
       </div>
     </div>
@@ -74,26 +190,30 @@
     <div id="view">
       <div class="view-con">
         <div class="view-pic">
-          <img src="https://cdn.pixabay.com/photo/2020/07/15/18/32/sneakers-5408674_1280.png">
+          <img
+            src="https://cdn.pixabay.com/photo/2020/07/15/18/32/sneakers-5408674_1280.png"
+          />
         </div>
 
         <div class="view-info">
-          <p>슈퍼스타</p>
+          <p>운동화</p>
           <p>10,0000 원</p>
           <p>재고: 99</p>
-          <form action="/" method="post">
-            <input type="text" id="number">
-            <button onclick="location.href=''">장바구니 추가</button>
-          </form>
+          <input type="text" id="item-count" />
+          <button
+            onclick="save_item()"
+            class="btn btn-outline-primary"
+            type="button"
+          >
+            장바구니 추가
+          </button>
         </div>
       </div>
 
       <div class="view-con">
         <div class="view-desc">
-          <p>운동화</p>
-          <div>
-            운동화 상세 설명
-          </div>
+          <p>멋있는 운동화!</p>
+          <div>운동화 상세 설명입니다.</div>
         </div>
       </div>
     </div>

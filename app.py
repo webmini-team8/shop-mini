@@ -8,9 +8,10 @@ from pymongo import MongoClient
 import certifi
 
 
-# ca = certifi.where()
-# client = MongoClient('mongodb+srv://sparta1:test1@cluster0.kuoqp5o.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
-# db = client.dbsparta0
+ca = certifi.where()
+client = MongoClient('mongodb+srv://sparta1:test1@cluster0.kuoqp5o.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+db = client.dbsparta0
+
 # from flask import Flask, render_template, request, jsonify
 # app = Flask(__name__)
 
@@ -18,9 +19,9 @@ import certifi
 # client = MongoClient()
 # db = client.dbleolego
 
-# @app.route('/')
-# def home():
-#     return render_template('index.html')
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 # 쇼핑몰 상세 페이지 leolego03
 @app.route('/view')
