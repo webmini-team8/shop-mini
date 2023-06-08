@@ -1,23 +1,9 @@
-<<<<<<< Updated upstream
-
-from pymongo import MongoClient
-=======
 ##쿠산님 코드 시작
 
->>>>>>> Stashed changes
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-<<<<<<< Updated upstream
-
-
-
-client = MongoClient(
-    'mongodb://sparta:1234@ac-uixemuf-shard-00-00.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-01.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-02.hhp4n7w.mongodb.net:27017/?ssl=true&replicaSet=atlas-1q63nz-shard-0&authSource=admin&retryWrites=true&w=majority')
-db = client.shoppingmall8
-
-=======
 from pymongo import MongoClient
 import certifi
 
@@ -34,7 +20,7 @@ db = client.dbsparta0
 # from pymongo import MongoClient
 # client = MongoClient()
 # db = client.dbleolego
->>>>>>> Stashed changes
+
 
 @app.route('/')
 def home():
@@ -273,10 +259,4 @@ def pay():
 
 
 if __name__ == '__main__':
-<<<<<<< Updated upstream
     app.run('0.0.0.0', port=5001, debug=True)
-=======
-    app.run('0.0.0.0', port=5000, debug=True)
-
-
->>>>>>> Stashed changes
