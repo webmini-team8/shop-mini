@@ -23,7 +23,7 @@ db = client.dbsparta0
 def home():
     return render_template('index.html')
 
-# 쇼핑몰 상세 페이지 leolego03
+# 쇼핑몰 상세 페이지 leolego03 ->머지되어 이제 사용안함
 @app.route('/view')
 def view():
     item_id = request.args.get('itemid')
@@ -45,7 +45,7 @@ def view_post_item():
 
     return jsonify({'msg': item_count + '개 추가 완료!'})
 
-# 임시 상품 등록 leolego03
+# 임시 상품 등록 leolego03 -> 머지되어 이제 사용 안함
 @app.route('/temp/item', methods=['GET'])
 def temp_post_item():
     temp_item = {
@@ -61,7 +61,18 @@ def temp_post_item():
     db.shop.insert_one(temp_item)
     return render_template('index.html')
 
+#######
+@app.route("/itemdetails", methods=["GET"])   # 아이템 하나 상세정보 모두 불러오기
+def item_details():
+    itemid_receive = int(request.args.get('itemid_give', False))
 
+    # 아이템 정보 찾기
+    item_details = db.shop.find_one({'num': itemid_receive}, {'_id': False})
+
+    if item_details:
+        return jsonify({'result': item_details, 'msg': '아이템 정보가 불러와졌습니다'})
+    else:
+        return jsonify({'msg': '아이템을 찾을 수 없습니다.'})
 
 
 
@@ -105,7 +116,7 @@ def api_cards():
     
     
     
-    return jsonify({"data":'saqlandi'})
+    return jsonify({"data":'장바구니에 담았습니다.'})
     
             
 
