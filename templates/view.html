@@ -52,45 +52,52 @@
       .view-pic { position: relative; overflow: hidden; width: 320px; height: 320px; }
       .view-pic img { position: absolute; width: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
       .view-info { width: 320px; height: 320px; margin-left: 20px; }
-      .view-info > form > input { width: 60px; }
+      .view-info input { width: 60px; }
       .view-desc { padding: 20px 20px 0 20px; }
     </style>
     <script>
-      $(document).ready(function () {
-        show_item();
-      });
-      function show_item() {
-        fetch('/view/get-item').then(res => res.json()).then(data => {
-          $('.view-info').empty()
-          $('.view-desc').empty()
+      function save_item() {
+        let itemCount = $('#item-count').val()
+        let itemStock = $('#item-stock').val()
 
-          let tempItem = data['temp_item']
-          let itemId= tempItem['itemId']
-          let itemName = tempItem['itemName']
-          let itemPrice = tempItem['itemPrice']
-          let itemStock = tempItem['itemStock']
-          let itemSubTitle = tempItem['itemSubTitle']
-          let itemDescription = tempItem['itemDescription']
+        let formData = new FormData();
+        formData.append("item_count", itemCount);
 
-          let tempHtml = `<p>${itemName}</p>
-                          <p>${itemPrice} 원</p>
-                          <p>재고: ${itemStock}</p>
-                          <form action="/" method="post">
-                            <input type="text" id="number">
-                            <button onclick="location.href=''">장바구니 추가</button>
-                          </form>`
-          
-          let tempHtmlDesc = `<p>${itemSubTitle}</p>
-                              <div>
-                                ${itemDescription}
-                              </div>`
-
-          if(itemId === 2) {
-            $('.view-info').append(tempHtml)
-            $('.view-desc').append(tempHtmlDesc)
-          }
-        })
+        fetch('/view/item', {method: "POST", body: formData}).then((response) => response.json()).then((data) => {
+          alert(data["msg"])
+          window.location.reload()
+        });
       }
+
+      $(window).on("load", function() {
+        $('.view-pic').empty()
+        $('.view-info').empty()
+        $('.view-desc').empty()
+
+        let itemImgUrl = '{{ temp_item.itemImgUrl }}'
+        let itemName = '{{ temp_item.itemName }}'
+        let itemPrice = '{{ temp_item.itemPrice }}'
+        let itemStock = '{{ temp_item.itemStock }}'
+        let itemSubTitle = '{{ temp_item.itemSubTitle }}'
+        let itemDescription = '{{ temp_item.itemDescription }}'
+
+        let tempHtml = `<img src="${itemImgUrl}">`
+
+        let tempHtmlInfo = `<p>${itemName}</p>
+                        <p>${itemPrice} 원</p>
+                        <p>재고: ${itemStock}</p>
+                        <input type="text" id="item-count">
+                        <button onclick="save_item()" class="btn btn-outline-primary" type="button">장바구니 추가</button>`
+        
+        let tempHtmlDesc = `<p>${itemSubTitle}</p>
+                            <div>
+                              ${itemDescription}
+                            </div>`
+
+        $('.view-pic').append(tempHtml)
+        $('.view-info').append(tempHtmlInfo)
+        $('.view-desc').append(tempHtmlDesc)
+      });
     </script>
   </head>
   <body>
@@ -101,8 +108,8 @@
         </div>
   
         <div class="hd-nav">
-          <a href="#">장바구니</a>
-          <a href="#">로그인</a>
+          <a href="/">장바구니</a>
+          <a href="/">로그인</a>
         </div>
       </div>
     </div>
@@ -117,10 +124,8 @@
           <p>운동화</p>
           <p>10,0000 원</p>
           <p>재고: 99</p>
-          <form action="/" method="post">
-            <input type="text" id="number">
-            <button onclick="location.href=''">장바구니 추가</button>
-          </form>
+          <input type="text" id="item-count">
+          <button onclick="save_item()" class="btn btn-outline-primary" type="button">장바구니 추가</button>
         </div>
       </div>
 

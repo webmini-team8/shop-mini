@@ -7,35 +7,36 @@ db = client.dbleolego
 
 @app.route('/')
 def home():
-   return render_template('index.html')
-
-@app.route("/guestbook", methods=["POST"])
-def guestbook_post():
-    name_receive = request.form['name_give']
-    comment_receive = request.form['comment_give']
-    doc = {
-        'name': name_receive,
-        'comment': comment_receive
-    }
-    db.fan.insert_one(doc)
-    
-    return jsonify({'msg': '저장 완료!'})
-
-@app.route("/guestbook", methods=["GET"])
-def guestbook_get():
-    all_comments = list(db.fan.find({},{'_id':False}))
-    return jsonify({'result': all_comments})
+    return render_template('index.html')
 
 # 쇼핑몰 상세 페이지 leolego03
 @app.route('/view')
 def view():
-    return render_template('view.html')
+    item_id = request.args.get('itemid')
+    temp_item = db.shop.find_one({'itemId': int(item_id)})
+
+    return render_template('view.html', temp_item = temp_item)
 
 # 쇼핑몰 상세 페이지 상품 leolego03
-@app.route('/view/get-item', methods=["GET"])
+@app.route('/view/item', methods=["GET"])
 def view_get_item():
+    temp_item = db.shop.find_one({'itemId': 2})
+
+    return jsonify({'temp_item' : temp_item})
+
+# 쇼핑몰 상세 페이지 상품 저장 leolego03
+@app.route('/view/item', methods=["POST"])
+def view_post_item():
+    item_count = request.form['item_count']
+
+    return jsonify({'msg': item_count + '개 추가 완료!'})
+
+# 임시 상품 등록 leolego03
+@app.route('/temp/item', methods=['GET'])
+def temp_post_item():
     temp_item = {
         'itemId' : 2,
+        'itemImgUrl' : 'https://cdn.pixabay.com/photo/2020/07/15/18/32/sneakers-5408674_1280.png',
         'itemName' : '운동화',
         'itemPrice' : 10000,
         'itemStock' : 99,
@@ -43,7 +44,8 @@ def view_get_item():
         'itemDescription': '운동화 상세 설명입니다.'
     }
 
-    return jsonify({'temp_item' : temp_item})
+    db.shop.insert_one(temp_item)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

@@ -18,7 +18,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <title>초미니홈피 - 팬명록</title>
+    <title>쇼핑몰8</title>
 
     <meta property="og:title" content="Band leolego 팬명록" />
     <meta property="og:description" content="아티스트에게 응원 한마디!" />
@@ -32,145 +32,16 @@
       * {
         font-family: "Noto Serif KR", serif;
       }
-      .mypic {
-        width: 100%;
-        height: 300px;
 
-        background-image: linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.5),
-            rgba(0, 0, 0, 0.5)
-          ),
-          url("https://cdn.pixabay.com/photo/2016/11/29/06/17/audience-1867754_1280.jpg");
-        background-position: center 30%;
-        background-size: cover;
-
-        color: white;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .mypost {
-        width: 95%;
-        max-width: 500px;
-        margin: 20px auto 20px auto;
-
-        box-shadow: 0px 0px 3px 0px black;
-        padding: 20px;
-      }
-
-      .mypost > button {
-        margin-top: 15px;
-      }
-
-      .mycards {
-        width: 95%;
-        max-width: 500px;
-        margin: auto;
-      }
-
-      .mycards > .card {
-        margin-top: 10px;
-        margin-bottom: 10px;
+      a {
+        display: block;
       }
     </style>
-    <script>
-      $(document).ready(function () {
-        set_temp();
-        show_comment();
-      });
-      function set_temp() {
-        fetch("http://spartacodingclub.shop/sparta_api/weather/seoul").then((res) => res.json()).then((data) => {
-            let temp = data['temp']
-            $('#temp').text(temp)
-          });
-      }
-      function save_comment() {
-        let name = $('#name').val()
-        let comment = $('#comment').val()
-
-        let formData = new FormData();
-        formData.append("name_give", name);
-        formData.append("comment_give", comment);
-
-        fetch('/guestbook', {method: "POST",body: formData,}).then((res) => res.json()).then((data) => {
-            alert(data["msg"]);
-            window.location.reload()
-          });
-      }
-      function show_comment() {
-        fetch('/guestbook').then((res) => res.json()).then((data) => {
-          let rows = data['result']
-          $('#comment-list').empty()
-          rows.forEach((a)=>{
-            let name = a['name']
-            let comment = a['comment']
-
-            let temp_html = `<div class="card">
-                              <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                  <p>${comment}</p>
-                                  <footer class="blockquote-footer">${name}</footer>
-                                </blockquote>
-                              </div>
-                            </div>`
-            $('#comment-list').append(temp_html)
-          })
-				})
-      }
-    </script>
   </head>
   <body>
-    <div class="mypic">
-      <h1>Band leolego 팬명록</h1>
-      <p>현재기온: <span id="temp">36</span>도</p>
-    </div>
-    <div class="mypost">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="url" />
-        <label for="floatingInput">닉네임</label>
-      </div>
-      <div class="form-floating">
-        <textarea
-          class="form-control"
-          placeholder="Leave a comment here"
-          id="comment"
-          style="height: 100px"
-        ></textarea>
-        <label for="floatingTextarea2">응원댓글</label>
-      </div>
-      <button onclick="save_comment()" type="button" class="btn btn-dark">
-        댓글 남기기
-      </button>
-    </div>
-    <div class="mycards" id="comment-list">
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>새로운 앨범 너무 멋져요!</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>새로운 앨범 너무 멋져요!</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <blockquote class="blockquote mb-0">
-            <p>새로운 앨범 너무 멋져요!</p>
-            <footer class="blockquote-footer">호빵맨</footer>
-          </blockquote>
-        </div>
-      </div>
+    <div>
+      <a href="/view">쇼핑몰 상세 페이지</a>
+      <a href="/view?itemid=2">쇼핑몰 상세 페이지 + 상품 아이디 Parameter</a>
     </div>
   </body>
 </html>
