@@ -204,14 +204,14 @@
               </div>
               <div class="col">
                 <div class="row text-muted">${category}</div>
-                <div class="row">${name}</div>
+                <div class="row">${title}</div>
               </div>
               <div class="col">
                 <a href="#">-</a><a href="#" class="border">1</a
                 ><a href="#">+</a>
               </div>
               <div class="col">
-                $${price} <span class="close">&#10005;</span>
+                ${price} 원 <span class="close">&#10005;</span>
               </div>
             </div>
               `;
@@ -236,21 +236,21 @@
                 </div>
                 <hr />
                 <div class="row">
-                  <div class="col" style="padding-left: 0">상품 개수 :  ${rows.length}</div>
+                  <div class="col" style="padding-left: 0">구매 상품 수량 :  ${rows.length}</div>
 
                   </div>
                   <form>
-                    <p>GIVE CODE</p>
+                    <p>신용카드 정보</p>
                     <input id="code"  placeholder="이름" />
-                    <input id="val"  placeholder="카드 번호 입력" />
-                    <input id="address"  placeholder="집 주소" />
+                    <input id="val"  placeholder="카드 번호" />
+                    <input id="address"  placeholder="배송지 주소" />
                     </form>
                     <div
                     class="row"
                     style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
                     >
                     <div class="col">총 가격</div>
-                    <div class="col text-right">$ ${hap}</div>
+                    <div class="col text-right"> ${hap},000 원</div>
                     </div>
                     <button onclick="gume()" class="btn">구매</button>
                     `;
