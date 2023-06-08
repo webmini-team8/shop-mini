@@ -52,8 +52,10 @@
       .view-pic { position: relative; overflow: hidden; width: 320px; height: 320px; }
       .view-pic img { position: absolute; width: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
       .view-info { width: 320px; height: 320px; margin-left: 20px; }
-      .view-info input { width: 60px; }
+      .view-info p:nth-child(1) { font-weight: 600; }
+      .view-info input { width: 60px; margin-right: 10px; }
       .view-desc { padding: 20px 20px 0 20px; }
+      .view-desc p:nth-child(1) { font-weight: 600; }
     </style>
     <script>
       function save_item() {
@@ -104,12 +106,12 @@
     <div id="hd">
       <div class="hd-con">
         <div class="hd-tit">
-          <a href="/">쇼핑몰8</a>
+          <a href="/" class="link-primary">쇼핑몰8</a>
         </div>
   
         <div class="hd-nav">
-          <a href="/">장바구니</a>
-          <a href="/">로그인</a>
+          <a href="/" class="link-secondary">장바구니</a>
+          <a href="/" class="link-success">로그인</a>
         </div>
       </div>
     </div>
