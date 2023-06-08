@@ -19,16 +19,9 @@ def home():
 @app.route('/view')
 def view():
     item_id = request.args.get('itemid')
-    temp_item = db.shop.find_one({'itemId': int(item_id)})
+    view_item = db.shop.find_one({'num': int(item_id)}, {'_id': False})
 
-    return render_template('view.html', temp_item = temp_item)
-
-# 쇼핑몰 상세 페이지 상품 저장 leolego03
-@app.route('/view/item', methods=["POST"])
-def view_post_item():
-    item_count = request.form['item_count']
-
-    return jsonify({'msg': item_count + '개 추가 완료!'})
+    return render_template('view.html', view_item = view_item)
 
 #######
 @app.route("/itemdetails", methods=["GET"])   # 아이템 하나 상세정보 모두 불러오기

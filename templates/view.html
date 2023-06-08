@@ -122,14 +122,11 @@
       .view-desc {
         padding: 20px 20px 0 20px;
       }
-      .view-desc p:nth-child(1) {
-        font-weight: 600;
-      }
     </style>
     <script>
-      function btn(itemid) {
+      function btn(num) {
         let formData = new FormData();
-        formData.append("num", itemid);
+        formData.append("num", num);
 
         fetch("/shop/cards", { method: "POST", body: formData })
           .then((res) => res.json())
@@ -139,85 +136,35 @@
           });
       }
 
-      function save_item() {
-        let itemCount = $("#item-count").val();
-        let itemStock = $("#item-stock").val();
+      $(window).on("load", function() {
+        $('.view-pic').empty()
+        $('.view-info').empty()
+        $('.view-desc').empty()
 
-        let formData = new FormData();
-        formData.append("item_count", itemCount);
+        let itemImgUrl = '{{ view_item.url }}'
+        let itemNum = '{{ view_item.num }}'
+        let itemName = '{{ view_item.name }}'
+        let itemCategory = '{{ view_item.category }}'
+        let itemPrice = '{{ view_item.price }}'
+        let itemCount = '{{ view_item.count }}'
+        let itemArea = '{{ view_item.area }}'
 
-        fetch("/view/item", { method: "POST", body: formData })
-          .then((response) => response.json())
-          .then((data) => {
-            alert(data["msg"]);
-            window.location.reload();
-          });
-      }
+        let tempHtml = `<img src="${itemImgUrl}">`
 
-      $(window).on("load", function () {
-        $(".view-pic").empty();
-        $(".view-info").empty();
-        $(".view-desc").empty();
+        let tempHtmlInfo = `<p>${itemName}</p>
+                        <p>분류: ${itemCategory}</p>
+                        <p>가격: ${itemPrice} 원</p>
+                        <p>수량: ${itemCount}</p>
+                        <button onclick="btn(${itemNum})" class="btn btn-outline-primary" type="button">장바구니 추가</button>`
+        
+        let tempHtmlDesc = `<div>
+                              ${itemArea}
+                            </div>`
 
-        let itemid = 1; //임시아이템아이디
-
-        let itemRequest = new Request(`/itemdetails?itemid_give=${itemid}`, {
-          method: "GET",
-        });
-        fetch(itemRequest)
-          .then((response) => response.json())
-          .then((data) => {
-            let item = data["result"];
-            let itemImgUrl = item["url"];
-            let itemName = item["name"];
-            let itemPrice = item["price"];
-            let itemStock = item["count"];
-            let itemSubTitle = item["category"];
-            let itemDescription = item["area"];
-
-            let tempHtml = `<img src="${itemImgUrl}">`;
-
-            let tempHtmlInfo = `<p>${itemName}</p>
-                  <p>${itemPrice} 원</p>
-                  <p>재고: ${itemStock}</p>
-
-                  <button onclick="btn(${itemid})" class="btn btn-outline-primary" type="button">장바구니 추가</button>`;
-
-            let tempHtmlDesc = `<p>${itemSubTitle}</p>
-                      <div>
-                        ${itemDescription}
-                      </div>`;
-
-            $(".view-pic").append(tempHtml);
-            $(".view-info").append(tempHtmlInfo);
-            $(".view-desc").append(tempHtmlDesc);
-          });
+        $('.view-pic').append(tempHtml)
+        $('.view-info').append(tempHtmlInfo)
+        $('.view-desc').append(tempHtmlDesc)
       });
-
-      // let itemImgUrl = "{{ temp_item.itemImgUrl }}";
-      // let itemName = "{{ temp_item.itemName }}";
-      // let itemPrice = "{{ temp_item.itemPrice }}";
-      // let itemStock = "{{ temp_item.itemStock }}";
-      // let itemSubTitle = "{{ temp_item.itemSubTitle }}";
-      // let itemDescription = "{{ temp_item.itemDescription }}";
-
-      // let tempHtml = `<img src="${itemImgUrl}">`;
-
-      // let tempHtmlInfo = `<p>${itemName}</p>
-      //                 <p>${itemPrice} 원</p>
-      //                 <p>재고: ${itemStock}</p>
-      //                 <input type="text" id="item-count">
-      //                 <button onclick="save_item()" class="btn btn-outline-primary" type="button">장바구니 추가</button>`;
-
-      // let tempHtmlDesc = `<p>${itemSubTitle}</p>
-      //                     <div>
-      //                       ${itemDescription}
-      //                     </div>`;
-
-      // $(".view-pic").append(tempHtml);
-      // $(".view-info").append(tempHtmlInfo);
-      // $(".view-desc").append(tempHtmlDesc);
-      // });
     </script>
   </head>
   <body>
@@ -244,8 +191,9 @@
 
         <div class="view-info">
           <p>운동화</p>
-          <p>10,0000 원</p>
-          <p>재고: 99</p>
+          <p>분류</p>
+          <p>가격: 10,0000 원</p>
+          <p>수량: 99</p>
           <input type="text" id="item-count" />
           <button
             onclick="save_item()"
@@ -259,7 +207,6 @@
 
       <div class="view-con">
         <div class="view-desc">
-          <p>멋있는 운동화!</p>
           <div>운동화 상세 설명입니다.</div>
         </div>
       </div>
