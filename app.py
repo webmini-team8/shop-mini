@@ -1,8 +1,15 @@
+<<<<<<< Updated upstream
 
 from pymongo import MongoClient
+=======
+##쿠산님 코드 시작
+
+>>>>>>> Stashed changes
 from flask import Flask, render_template, request, jsonify
+
 app = Flask(__name__)
 
+<<<<<<< Updated upstream
 
 
 
@@ -10,6 +17,24 @@ client = MongoClient(
     'mongodb://sparta:1234@ac-uixemuf-shard-00-00.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-01.hhp4n7w.mongodb.net:27017,ac-uixemuf-shard-00-02.hhp4n7w.mongodb.net:27017/?ssl=true&replicaSet=atlas-1q63nz-shard-0&authSource=admin&retryWrites=true&w=majority')
 db = client.shoppingmall8
 
+=======
+from pymongo import MongoClient
+import certifi
+
+
+ca = certifi.where()
+client = MongoClient('mongodb+srv://sparta1:test1@cluster0.kuoqp5o.mongodb.net/?retryWrites=true&w=majority', tlsCAFile=ca)
+db = client.dbsparta0
+
+
+####성민님 코드 시작부분
+# from flask import Flask, render_template, request, jsonify
+# app = Flask(__name__)
+
+# from pymongo import MongoClient
+# client = MongoClient()
+# db = client.dbleolego
+>>>>>>> Stashed changes
 
 @app.route('/')
 def home():
@@ -157,5 +182,101 @@ def cart_info():
 
 
 
+
+############################아래가 쿠산님 위에가 성민님
+@app.route("/shop", methods=["POST"])
+def movie_post():
+    url_receive = request.form['url_give']
+    name_receive = request.form['name_give']
+    category_receive = request.form['category_give']
+    price_receive = request.form['price_give']
+    count_receive = request.form['count_give']
+    area_receive = request.form['area_give']
+
+    shop_list = list(db.shop.find({}))
+    count = len(shop_list) + 1
+    print(type(count))
+    doc = {
+        'num': count,
+        'url':url_receive,
+        'name':name_receive,
+        'category':category_receive,
+        'price':price_receive,
+        'count':count_receive,
+        'area':area_receive
+
+    }
+    db.shop.insert_one(doc)
+
+    return jsonify({'msg':'succsess'})
+
+@app.route("/shop/cards",methods = ["POST"])
+def api_cards():
+
+    num =  request.form["num"]
+    # data =list( db.shop.find_one({"num":int(num)}))
+    data = list(db.shop.find({'num':int(num)},{'_id':False}))
+    
+    for i in data:
+         db.user.insert_one(i)
+    
+    
+    
+    return jsonify({"data":'saqlandi'})
+    
+            
+
+@app.route("/shop/cards",methods = ["GET"])
+def api_get():
+        
+        
+        user = list(db.user.find({},{'_id':False}))
+        
+
+        return jsonify({"status" : user})
+
+@app.route("/shop", methods=["GET"])
+def movie_get():
+
+    all = list(db.shop.find({},{'_id':False}))
+    
+    
+    return jsonify({'result':all})
+
+@app.route('/card')
+def start():
+    return render_template('card.html')
+
+@app.route('/pay', methods=["POST"])
+def pay():
+     
+     name = request.form['name']
+     val = request.form['val']
+     address = request.form['address']
+     
+     
+     doc = {
+          'name':name,
+          'val':val,
+          'address':address
+     }
+     db.pay.insert_one(doc)
+
+     db.user.delete_many({})
+
+    
+     return jsonify({'pay':'sucsess'})
+
+
+
+
+
+
 if __name__ == '__main__':
+<<<<<<< Updated upstream
     app.run('0.0.0.0', port=5001, debug=True)
+=======
+    app.run('0.0.0.0', port=5000, debug=True)
+
+
+>>>>>>> Stashed changes
