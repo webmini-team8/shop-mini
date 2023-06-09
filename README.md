@@ -41,3 +41,21 @@ Flask, MongoDB 설치 명령어:
 app.py 5번 라인:
   client = MongoClient("MongoDB 클러스터 URL")
 ```
+
+---
+
+
+#### Wire Frame
+
+
+![Untitled](https://github.com/webmini-team8/shop-mini/assets/83047601/df6063cf-4d05-4354-bcd1-7ab0c4ecc862)
+
+
+---
+
+
+#### Use Case
+
+
+![Untitled (2)](https://github.com/webmini-team8/shop-mini/assets/83047601/3a8dd56a-ecb9-4b33-9fc6-6ec4968c3268)
+
