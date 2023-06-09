@@ -19,6 +19,7 @@
 
 + 팀원
   + [Khusan](https://github.com/khu107)
+  + [leolego03](https://github.com/leolego03)
   + [Taehyun Kim](https://github.com/taehyunkim3)
   + [kangsinbeom](https://github.com/kangsinbeom)
 
