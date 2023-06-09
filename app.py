@@ -1,5 +1,3 @@
-##쿠산님 코드 시작
-
 from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
@@ -22,20 +20,6 @@ def view():
     view_item = db.shop.find_one({'num': int(item_id)}, {'_id': False})
 
     return render_template('view.html', view_item = view_item)
-
-#######
-@app.route("/itemdetails", methods=["GET"])   # 아이템 하나 상세정보 모두 불러오기
-def item_details():
-    itemid_receive = int(request.args.get('itemid_give', False))
-
-    # 아이템 정보 찾기
-    item_details = db.shop.find_one({'num': itemid_receive}, {'_id': False})
-
-    if item_details:
-        return jsonify({'result': item_details, 'msg': '아이템 정보가 불러와졌습니다'})
-    else:
-        return jsonify({'msg': '아이템을 찾을 수 없습니다.'})
-
 
 
 
@@ -64,7 +48,7 @@ def movie_post():
     }
     db.shop.insert_one(doc)
 
-    return jsonify({'msg':'succsess'})
+    return jsonify({'msg':'상품 등록 완료!'})
 
 @app.route("/shop/cards",methods = ["POST"])
 def api_cards():
@@ -121,10 +105,7 @@ def pay():
      db.user.delete_many({})
 
     
-     return jsonify({'pay':'sucsess'})
-
-
-
+     return jsonify({'pay':'구매 완료!'})
 
 
 
