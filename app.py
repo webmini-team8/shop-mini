@@ -21,9 +21,7 @@ def view():
 
     return render_template('view.html', view_item = view_item)
 
-
-
-############################아래가 쿠산님 위에가 성민님
+# Khusan
 @app.route("/shop", methods=["POST"])
 def movie_post():
     url_receive = request.form['url_give']
@@ -50,64 +48,53 @@ def movie_post():
 
     return jsonify({'msg':'상품 등록 완료!'})
 
+# Khusan
 @app.route("/shop/cards",methods = ["POST"])
 def api_cards():
-
     num =  request.form["num"]
     # data =list( db.shop.find_one({"num":int(num)}))
     data = list(db.shop.find({'num':int(num)},{'_id':False}))
     
     for i in data:
-         db.user.insert_one(i)
-    
-    
+        db.user.insert_one(i)
     
     return jsonify({"data":'장바구니에 담았습니다.'})
-    
-            
 
+# Khusan
 @app.route("/shop/cards",methods = ["GET"])
 def api_get():
-        
-        
-        user = list(db.user.find({},{'_id':False}))
-        
+    user = list(db.user.find({},{'_id':False}))
+    
+    return jsonify({"status" : user})
 
-        return jsonify({"status" : user})
-
+# Khusan
 @app.route("/shop", methods=["GET"])
 def movie_get():
-
     all = list(db.shop.find({},{'_id':False}))
-    
     
     return jsonify({'result':all})
 
+# Khusan
 @app.route('/card')
 def start():
     return render_template('card.html')
 
+# Khusan
 @app.route('/pay', methods=["POST"])
 def pay():
-     
-     name = request.form['name']
-     val = request.form['val']
-     address = request.form['address']
-     
-     
-     doc = {
-          'name':name,
-          'val':val,
-          'address':address
-     }
-     db.pay.insert_one(doc)
+    name = request.form['name']
+    val = request.form['val']
+    address = request.form['address']
 
-     db.user.delete_many({})
+    doc = {
+        'name':name,
+        'val':val,
+        'address':address
+    }
+    db.pay.insert_one(doc)
+    db.user.delete_many({})
 
-    
-     return jsonify({'pay':'구매 완료!'})
-
-
+    return jsonify({'pay':'구매 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5001, debug=True)
